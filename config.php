@@ -6,9 +6,9 @@ ini_set('display_errors', '1');
 
 // Database connection parameters
 $db_hostname = 'localhost';
-$db_username = 'u72381p270346_admin';
-$db_password = 'jykfUv-tecse1-dozfiq';
-$db_database = 'u72381p270346_DB';
+$db_username = '#';
+$db_password = '#';
+$db_database = '#';
 
 // Establish a database connection using MySQLi
 $mysqli = new mysqli($db_hostname, $db_username, $db_password, $db_database);
