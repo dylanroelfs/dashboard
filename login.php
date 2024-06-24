@@ -3,40 +3,44 @@
 session_start();
 require_once 'config.php';
 
-$gebruikersnaam = $_POST['gebruikersnaam'];
-$wachtwoord = $_POST['wachtwoord'];
+// Fetch and validate POST data
+$gebruikersnaam = isset($_POST['gebruikersnaam']) ? trim($_POST['gebruikersnaam']) : '';
+$wachtwoord = isset($_POST['wachtwoord']) ? trim($_POST['wachtwoord']) : '';
 
-if (strlen($gebruikersnaam) > 0 && strlen($wachtwoord) > 0) {
+if (!empty($gebruikersnaam) && !empty($wachtwoord)) {
 
-	$wachtwoord = SHA1($wachtwoord);
-	$query = "SELECT * FROM users WHERE gebruikersnaam = '$gebruikersnaam' AND wachtwoord = '$wachtwoord'";
-	$result = mysqli_query($mysqli, $query);
-	$rijtje = mysqli_fetch_array($result); 
+    // Use prepared statements to prevent SQL injection
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE gebruikersnaam = ? AND wachtwoord = ?");
+    $hashed_wachtwoord = SHA1($wachtwoord);
+    $stmt->bind_param('ss', $gebruikersnaam, $hashed_wachtwoord);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-	if (mysqli_num_rows($result) == 1) {
-
-		$_SESSION['gebruikersnaam'] = $gebruikersnaam;
-		$_SESSION['id'] = $rijtje['id'];
-		$_SESSION['voornaam'] = $rijtje['voornaam'];
-		$_SESSION['achternaam'] = $rijtje['achternaam'];
-		$_SESSION['wachtwoord'] = $rijtje['wachtwoord'];
+    // Check if the query returned a result
+    if ($result && $result->num_rows === 1) {
+        $rijtje = $result->fetch_assoc();
+        
+        $_SESSION['gebruikersnaam'] = $gebruikersnaam;
+        $_SESSION['id'] = $rijtje['id'];
+        $_SESSION['voornaam'] = $rijtje['voornaam'];
+        $_SESSION['achternaam'] = $rijtje['achternaam'];
+        $_SESSION['wachtwoord'] = $rijtje['wachtwoord'];
         $_SESSION['email'] = $rijtje['email'];
-		$_SESSION['rol'] = $rijtje['rol'];
-		$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+        $_SESSION['rol'] = $rijtje['rol'];
+        $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
 
-		header("Location:dashboard.php");
-	} 
-	
-	else {
-		header("Location:dashboard.php");
-		exit;
-	}
+        header("Location:dashboard.php");
+    } else {
+        // Invalid login attempt
+        header("Location:login-fout.html");
+        exit;
+    }
 
-} 
-
-else {
-	header("Location:login-fout.php");
-	exit;
+    $stmt->close();
+} else {
+    // Missing username or password
+    header("Location:login-fout.php");
+    exit;
 }
 
 ?>

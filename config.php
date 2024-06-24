@@ -1,21 +1,24 @@
 <?php
 
-error_reporting(E_All);
+// Set error reporting to show all errors and display them
+error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+// Database connection parameters
 $db_hostname = 'localhost';
-$db_username = '#';
-$db_password = '#';
-$db_database = '#';
+$db_username = 'u72381p270346_admin';
+$db_password = 'jykfUv-tecse1-dozfiq';
+$db_database = 'u72381p270346_DB';
 
-$mysqli = mysqli_connect($db_hostname, $db_username, $db_password, $db_database);
+// Establish a database connection using MySQLi
+$mysqli = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 
-if (!mysqli) {
-
-	echo "FOUT: geen conectie naar database. <br>";
-	echo "Errno " . mysqli_connect_error() . "<br/>";
-	echo "Error " . mysqli_connect_error() . "<br/>";
-	exit;
+// Check for connection errors
+if ($mysqli->connect_error) {
+    echo "FOUT: geen connectie naar database. <br>";
+    echo "Errno " . $mysqli->connect_errno . "<br/>";
+    echo "Error " . $mysqli->connect_error . "<br/>";
+    exit;
 }
 
 ?>
