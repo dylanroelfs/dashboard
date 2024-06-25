@@ -92,8 +92,6 @@ require_once 'config.php';
       </form>
     <?php } ?>
 
-    <br>
-
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
       require 'config.php'; 

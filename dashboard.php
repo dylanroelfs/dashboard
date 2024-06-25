@@ -46,6 +46,10 @@ require_once 'config.php';
       <?php echo "<p><i class='fas fa-check-circle'></i> U bent ingelogd als " . htmlspecialchars($_SESSION['voornaam'], ENT_QUOTES, 'UTF-8') . "</p>"; ?>
     </div>
 
+    <div class="alert alert-success" role="alert">
+      <?php echo "<p><i class='fas fa-check-circle'></i> Uw rol: " . htmlspecialchars($_SESSION['rol'], ENT_QUOTES, 'UTF-8') . "</p>"; ?>
+    </div>
+
     <div class="alert alert-info" role="alert">
       <?php echo "<p><i class='fas fa-info-circle'></i> De datum van vandaag is " . date("d-m-Y") ."</p>"; ?>
     </div>

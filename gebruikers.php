@@ -12,7 +12,7 @@ require_once 'config.php';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alle gebruikers</title>
+  <title>Gebruikers</title>
   <?php include 'include/head.php';?>
 </head>
 <body>
@@ -25,7 +25,7 @@ require_once 'config.php';
 <div id="viewport">
   <div class="uppernav2">
     <div class="uppernav2left">
-      <span class='badge badge-secondary'><i class="fas fa-user-friends"></i> Alle gebruikers</span> 
+      <span class='badge badge-secondary'><i class="fas fa-user-friends"></i> Gebruikers</span> 
       <span class='badge badge-secondary'>Aantal: <?php echo htmlspecialchars($row['count'], ENT_QUOTES, 'UTF-8'); ?></span>
     </div>
     <div class="uppernav2right">
@@ -69,6 +69,7 @@ require_once 'config.php';
           <th>Email</th>
           <th>Gebruikersnaam</th>
           <th>Rol</th>
+          <th>Verwijder</th>
         </tr>
     
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
@@ -79,6 +80,7 @@ require_once 'config.php';
             <td><?php echo htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
             <td><?php echo htmlspecialchars($row['gebruikersnaam'], ENT_QUOTES, 'UTF-8'); ?></td>
             <td><?php echo htmlspecialchars($row['rol'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php echo "<a href='gebruiker-verwijderen.php?id=".$row['id']."'> <span class='badge badge-secondary'> <i class='fas fa-trash'></i> Verwijderen</a></span></a>";?></td>
           </tr>
         <?php } ?>
       </table>
